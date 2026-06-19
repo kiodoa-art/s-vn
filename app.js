@@ -1,4 +1,5 @@
-const APP_VERSION = "1.0.0";
+const APP_VERSION = "1.0.1";
+const UPDATE_DISMISS_KEY = "soevnro.updateDismissedVersion";
 const PLAN_KEY = "soevnro.sleepPlan.v1";
 
 const steps = [
@@ -352,7 +353,14 @@ function setupServiceWorker() {
 
 function showUpdate(worker) {
   pendingWorker = worker;
+  const dismissedVersion = localStorage.getItem(UPDATE_DISMISS_KEY);
+  if (dismissedVersion === APP_VERSION) return;
   $("#updateBanner").hidden = false;
+}
+
+function dismissUpdateBanner() {
+  localStorage.setItem(UPDATE_DISMISS_KEY, APP_VERSION);
+  $("#updateBanner").hidden = true;
 }
 
 function setupEvents() {
@@ -395,9 +403,11 @@ function setupEvents() {
     if (event.target.id === "toolModal") closeModal();
   });
   $("#reloadApp").addEventListener("click", () => {
+    localStorage.removeItem(UPDATE_DISMISS_KEY);
     if (pendingWorker) pendingWorker.postMessage({ type: "SKIP_WAITING" });
     else window.location.reload();
   });
+  $("#dismissUpdate").addEventListener("click", dismissUpdateBanner);
 
   window.addEventListener("keydown", event => {
     if (event.key === "Escape") {

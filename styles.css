@@ -554,3 +554,9 @@ main { padding: 10px 16px 24px; }
   #screen-plan { display: block !important; }
   .sleep-plan { box-shadow: none; border: 1px solid #bbb; }
 }
+
+.update-actions {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
