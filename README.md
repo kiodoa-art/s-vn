@@ -17,3 +17,8 @@ Når du ændrer appen, så bump versionsnummeret i:
 - `sw.js` CACHE_VERSION og fil-query strings
 
 Det får installerede PWA-versioner til at hente ny cache og vise opdateringsbanner.
+
+
+## Ændringer i v1.0.4
+- Opdateringsbjælken er fjernet helt fra HTML/CSS.
+- Illustrationerne i fanen “Nu” er fjernet helt.
