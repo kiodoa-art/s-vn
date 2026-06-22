@@ -1,9 +1,9 @@
-const CACHE_VERSION = "soevnro-v1.0.4";
+const CACHE_VERSION = "soevnro-v1.0.9";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./styles.css?v=1.0.4",
-  "./app.js?v=1.0.4",
+  "./styles.css?v=1.0.9",
+  "./app.js?v=1.0.9",
   "./manifest.webmanifest",
   "./assets/favicon.svg",
   "./assets/icon-192.png",

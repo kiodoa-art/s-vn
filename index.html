@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f3efe8" />
-  <meta name="description" content="Søvnro er en lille patientguide til ro, døgnrytme og bedre søvn." />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#111720" />
+  <meta name="description" content="Søvnro er en lille guide til ro, døgnrytme og bedre søvn." />
   <title>Søvnro · Lille guide til ro og søvn</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="assets/icon-192.png" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="styles.css?v=1.0.0" />
+  <link rel="stylesheet" href="styles.css?v=1.0.9" />
 </head>
 <body>
   <div class="app-shell">
@@ -25,7 +26,7 @@
           </svg>
         </div>
         <div>
-          <p class="eyebrow">Patientguide</p>
+          <p class="eyebrow">Søvnguide</p>
           <h1>Søvnro</h1>
         </div>
       </div>
@@ -39,18 +40,24 @@
           <button class="ghost-button" id="closeDrawer" type="button">Luk</button>
         </div>
         <nav class="drawer-nav" aria-label="Sektioner">
+          <p class="drawer-label">Primært</p>
           <button data-route="home" type="button">Forside</button>
           <button data-route="now" type="button">Jeg ligger vågen nu</button>
-          <button data-route="guides" type="button">Små søvnguides</button>
-          <button data-route="rhythm" type="button">Døgnrytme</button>
-          <button data-route="mind" type="button">Psykisk sårbarhed</button>
+          <button data-route="guides" type="button">Temaer og råd</button>
+          <p class="drawer-label">Værktøjer</p>
+          <button data-route="diary" type="button">Søvndagbog</button>
           <button data-route="plan" type="button">Min søvnplan</button>
+          <p class="drawer-label">Baggrund</p>
+          <button data-route="rhythm" type="button">Døgnrytme</button>
+          <button data-route="mind" type="button">Søvn og psyke</button>
           <button data-route="sources" type="button">Fagligt afsæt</button>
         </nav>
       </div>
     </aside>
 
     <main id="mainContent" tabindex="-1">
+
+      <!-- FORSIDE -->
       <section class="screen active" id="screen-home" data-screen="home">
         <div class="hero-card">
           <div class="hero-copy">
@@ -58,8 +65,8 @@
             <h2>En rolig guide, når natten bliver for lang.</h2>
             <p>Her får du korte råd, små øvelser og en enkel plan. Målet er ikke at tvinge søvnen frem. Målet er at give kroppen bedre betingelser for ro.</p>
             <div class="hero-actions">
-              <button class="primary-button" data-route="now" type="button">Jeg ligger vågen nu</button>
-              <button class="secondary-button" data-route="plan" type="button">Lav min søvnplan</button>
+              <button class="primary-button" data-route="now" type="button">Start roligt trin for trin</button>
+              <button class="secondary-button" id="acuteSymptomBtn" type="button">Ligger du vågen? ⚡</button>
             </div>
           </div>
           <div class="hero-illustration" aria-hidden="true">
@@ -76,42 +83,60 @@
           </div>
         </div>
 
-        <div class="section-title-row">
+        <section class="evening-checklist" aria-labelledby="eveningChecklistTitle">
+          <div class="checklist-head">
+            <p class="eyebrow">Aften-tjek</p>
+            <h3 id="eveningChecklistTitle">Fire små ting før sengetid</h3>
+            <p class="streak-display" id="streakDisplay" aria-live="polite"></p>
+          </div>
+          <div class="checklist-items">
+            <label class="check-item">
+              <input type="checkbox" data-checklist-item="caffeine" />
+              <span class="check-box" aria-hidden="true"></span>
+              <span class="check-text">Ingen koffein efter kl. 14:00</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" data-checklist-item="screens" />
+              <span class="check-box" aria-hidden="true"></span>
+              <span class="check-text">Skærme lagt væk eller dæmpet den sidste time</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" data-checklist-item="bedroom" />
+              <span class="check-box" aria-hidden="true"></span>
+              <span class="check-text">Soveværelset er udluftet og køligt (ca. 18°C)</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" data-checklist-item="thoughts" />
+              <span class="check-box" aria-hidden="true"></span>
+              <span class="check-text">Tømt hovedet for tanker (skrevet ned)</span>
+            </label>
+          </div>
+        </section>
+
+        <div class="section-title-row compact-title">
           <div>
-            <p class="eyebrow">Vælg det, der passer lige nu</p>
-            <h3>Hvad har du brug for?</h3>
+            <p class="eyebrow">Genveje</p>
+            <h3>Vælg én vej</h3>
           </div>
         </div>
 
-        <div class="quick-grid" aria-label="Genveje">
-          <button class="quick-card" data-route="now" type="button">
+        <div class="quick-list" aria-label="Genveje">
+          <button class="quick-row" data-route="now" type="button">
             <span class="quick-icon sleep-icon" aria-hidden="true"></span>
-            <strong>Jeg kan ikke falde i søvn</strong>
-            <small>Trin for trin, uden panik.</small>
+            <span><strong>Jeg kan ikke sove nu</strong><small>Akut hjælp i rolige trin.</small></span>
           </button>
-          <button class="quick-card" data-guide="night" type="button">
+          <button class="quick-row" data-route="guides" type="button">
             <span class="quick-icon wake-icon" aria-hidden="true"></span>
-            <strong>Jeg vågner om natten</strong>
-            <small>Hvad du gør uden at kæmpe.</small>
+            <span><strong>Jeg vil forstå og ændre vaner</strong><small>Vælg et emne og få korte råd.</small></span>
           </button>
-          <button class="quick-card" data-route="rhythm" type="button">
-            <span class="quick-icon sunrise-icon" aria-hidden="true"></span>
-            <strong>Min rytme er vendt</strong>
-            <small>Små skridt tilbage til rytme.</small>
-          </button>
-          <button class="quick-card" data-route="guides" type="button">
+          <button class="quick-row" data-route="diary" type="button">
             <span class="quick-icon habit-icon" aria-hidden="true"></span>
-            <strong>Gode søvnvaner</strong>
-            <small>Kort, konkret og uden løftede pegefingre.</small>
+            <span><strong>Jeg vil følge min søvn</strong><small>Søvndagbog og personlig plan.</small></span>
           </button>
-        </div>
-
-        <div class="notice soft">
-          <strong>Vigtigt</strong>
-          <p>Hvis du har bipolar lidelse og pludselig sover markant mindre uden at føle dig træt, bør du reagere tidligt og kontakte din behandler efter aftale.</p>
         </div>
       </section>
 
+      <!-- LIGGER VÅGEN NU -->
       <section class="screen" id="screen-now" data-screen="now">
         <div class="page-head">
           <p class="eyebrow">Lige nu</p>
@@ -127,7 +152,7 @@
           <div class="step-content">
             <p class="eyebrow" id="stepKicker">Start her</p>
             <h3 id="stepTitle">Stop kampen</h3>
-            <p id="stepText">Når du begynder at presse dig selv til at sove, bliver kroppen ofte mere vågen. Sig stille til dig selv: “Jeg behøver ikke løse hele natten. Jeg tager kun næste skridt.”</p>
+            <p id="stepText">Når du begynder at presse dig selv til at sove, bliver kroppen ofte mere vågen. Sig stille til dig selv: "Jeg behøver ikke løse hele natten. Jeg tager kun næste skridt."</p>
             <div class="step-tip" id="stepTip">Tip: Lad være med at tjekke klokken igen og igen. Det gør ofte natten mere anspændt.</div>
           </div>
           <div class="step-actions">
@@ -138,27 +163,39 @@
 
         <div class="mini-tools">
           <button class="tool-card" id="breathingButton" type="button">
-            <span>60 sek.</span>
-            <strong>Rolig vejrtrækning</strong>
-            <small>Enkel rytme til kroppen.</small>
+            <span>Vejrtrækning</span>
+            <strong>Rolig vejrtrækningsteknik</strong>
+            <small>Vælg 4-7-8, box breathing eller simpel rytme.</small>
+          </button>
+          <button class="tool-card" id="soundButton" type="button">
+            <span>Lydmiljø</span>
+            <strong>Baggrundslyd</strong>
+            <small>Hvid støj, regn eller skov.</small>
           </button>
           <button class="tool-card" id="thoughtButton" type="button">
             <span>2 min.</span>
             <strong>Parker tankerne</strong>
             <small>Få tankemylder ud af hovedet.</small>
           </button>
+          <button class="tool-card" id="sleepCalcButton" type="button">
+            <span>Søvnvindue</span>
+            <strong>Hvornår skal jeg stå op?</strong>
+            <small>Beregn baseret på søvncyklusser.</small>
+          </button>
         </div>
       </section>
 
+      <!-- GUIDES -->
       <section class="screen" id="screen-guides" data-screen="guides">
-        <div class="page-head">
-          <p class="eyebrow">Små guides</p>
-          <h2>Kort hjælp til de typiske søvnproblemer</h2>
-          <p>Vælg den situation, der ligner din. Rådene er korte med vilje.</p>
+        <div class="page-head guide-page-head">
+          <p class="eyebrow">Temaer</p>
+          <h2>Vælg det, der fylder lige nu</h2>
+          <p>Ingen lang tekstmur. Vælg et emne, så får du korte råd i en popup.</p>
         </div>
-        <div class="guide-list" id="guideList"></div>
+        <div class="topic-grid" id="topicGrid" aria-label="Søvntemaer"></div>
       </section>
 
+      <!-- DØGNRYTME -->
       <section class="screen" id="screen-rhythm" data-screen="rhythm">
         <div class="page-head">
           <p class="eyebrow">Døgnrytme</p>
@@ -204,6 +241,7 @@
         </div>
       </section>
 
+      <!-- SØVN OG PSYKE -->
       <section class="screen" id="screen-mind" data-screen="mind">
         <div class="page-head">
           <p class="eyebrow">Søvn og psyke</p>
@@ -211,18 +249,14 @@
           <p>Dårlig søvn kan give mere uro, angst, irritabilitet, tristhed og tankemylder. Det er ikke dovenskab. Det er kroppen og hjernen, der er presset.</p>
         </div>
 
-        <div class="warning-card">
-          <div class="warning-icon" aria-hidden="true">!</div>
-          <div>
-            <h3>Reagér tidligt ved bipolar lidelse</h3>
-            <p>Kontakt din behandler, hvis du gennem flere dage sover tydeligt mindre end vanligt, især hvis du samtidig får mere energi, bliver mere talende, får mange idéer, bliver irritabel eller mere impulsiv.</p>
-          </div>
-        </div>
-
         <div class="info-grid">
           <article class="info-card">
             <h3>Ved angst og uro</h3>
             <p>Det hjælper sjældent at skælde kroppen ud. Prøv at gøre natten mindre truende: dæmp lys, sænk tempo og brug korte, gentagne rutiner.</p>
+          </article>
+          <article class="info-card">
+            <h3>Ved stress</h3>
+            <p>Kroppen holder sig vågen, fordi den tror, der er fare på færde. Giv den signaler om, at dagen er slut: ritualer, dæmpet lys og langsommere bevægelser.</p>
           </article>
           <article class="info-card">
             <h3>Ved depression</h3>
@@ -233,12 +267,72 @@
             <p>Skriv tankerne ned i få ord. Ikke for at løse dem om natten, men for at lægge dem et andet sted til i morgen.</p>
           </article>
           <article class="info-card">
+            <h3>Ved smerter eller ubehag</h3>
+            <p>Fysisk ubehag forstyrrer søvnen markant. Tal med din læge om det, og brug rolige positioner, varme og afledning som støtte.</p>
+          </article>
+          <article class="info-card">
             <h3>Ved akut krise</h3>
-            <p>Hvis du er i akut fare, har selvmordstanker du ikke kan holde afstand til, eller oplever alvorlig forværring, skal du søge akut hjælp.</p>
+            <p>Hvis du er i akut fare eller har selvmordstanker du ikke kan holde afstand til, skal du søge akut hjælp — ring 112 eller gå på skadestuen.</p>
           </article>
         </div>
       </section>
 
+      <!-- SØVNDAGBOG -->
+      <section class="screen" id="screen-diary" data-screen="diary">
+        <div class="page-head">
+          <p class="eyebrow">Søvndagbog</p>
+          <h2>Log din nat</h2>
+          <p>Notér hvornår du lagde dig, hvornår du stod op og hvordan natten føltes. Alt gemmes lokalt på din enhed.</p>
+        </div>
+
+        <div class="diary-form sleep-plan">
+          <label>
+            <span>Dato</span>
+            <input type="date" id="diaryDate" />
+          </label>
+          <div class="diary-time-row">
+            <label>
+              <span>Lagde mig ca.</span>
+              <input type="time" id="diaryBedTime" />
+            </label>
+            <label>
+              <span>Stod op ca.</span>
+              <input type="time" id="diaryWakeTime" />
+            </label>
+          </div>
+          <label>
+            <span>Søvnkvalitet</span>
+            <div class="quality-picker" id="qualityPicker" role="radiogroup" aria-label="Søvnkvalitet 1-5">
+              <button type="button" class="q-btn" data-q="1" aria-label="1 - Meget dårlig">1</button>
+              <button type="button" class="q-btn" data-q="2" aria-label="2 - Dårlig">2</button>
+              <button type="button" class="q-btn" data-q="3" aria-label="3 - Okay">3</button>
+              <button type="button" class="q-btn" data-q="4" aria-label="4 - God">4</button>
+              <button type="button" class="q-btn" data-q="5" aria-label="5 - Meget god">5</button>
+            </div>
+            <div class="quality-labels"><span>Meget dårlig</span><span>Meget god</span></div>
+          </label>
+          <label>
+            <span>Note (valgfri)</span>
+            <textarea id="diaryNote" rows="2" placeholder="Fx: vågnet kl. 3, svært ved at falde i søvn..."></textarea>
+          </label>
+          <div class="form-actions">
+            <button class="primary-button" id="saveDiaryEntry" type="button">Gem nat</button>
+          </div>
+          <p class="save-status" id="diaryStatus" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="section-title-row" style="margin-top:28px">
+          <div>
+            <p class="eyebrow">Seneste 7 nætter</p>
+            <h3>Ugentlig oversigt</h3>
+          </div>
+          <button class="ghost-button" id="clearDiary" type="button" style="font-size:.82rem">Ryd alt</button>
+        </div>
+        <div id="diaryChart" class="diary-chart" aria-label="Ugentlig søvnoversigt"></div>
+        <div id="diaryList" class="diary-list"></div>
+      </section>
+
+      <!-- MIN SØVNPLAN -->
       <section class="screen" id="screen-plan" data-screen="plan">
         <div class="page-head">
           <p class="eyebrow">Min plan</p>
@@ -268,8 +362,12 @@
             <textarea name="awakePlan" rows="3" placeholder="Fx stå roligt op, dæmpe lys, læse noget kedeligt, gå tilbage når jeg er søvnig..."></textarea>
           </label>
           <label>
-            <span>Hvem kontakter jeg, hvis søvnen skrider?</span>
-            <textarea name="contactPlan" rows="3" placeholder="Fx behandler, team, læge, pårørende eller lokal akut hjælp..."></textarea>
+            <span>Påmindelse ved sengetid</span>
+            <div class="reminder-row">
+              <input type="time" name="reminderTime" id="reminderTime" />
+              <button class="secondary-button" id="setReminder" type="button">Sæt påmindelse</button>
+            </div>
+            <p class="save-status" id="reminderStatus" role="status" aria-live="polite" style="margin-top:6px"></p>
           </label>
           <div class="form-actions">
             <button class="primary-button" type="submit">Gem plan</button>
@@ -280,6 +378,7 @@
         </form>
       </section>
 
+      <!-- FAGLIGT AFSÆT -->
       <section class="screen" id="screen-sources" data-screen="sources">
         <div class="page-head">
           <p class="eyebrow">Fagligt afsæt</p>
@@ -296,19 +395,23 @@
             <p>Hvis sengen bliver forbundet med vågenhed og frustration, kan det hjælpe at stå roligt op og vende tilbage, når søvnigheden kommer igen.</p>
           </article>
           <article>
-            <h3>Bipolar lidelse</h3>
-            <p>Ændret søvn kan være et tidligt advarselstegn. Derfor skal søvnråd bruges forsigtigt og sammen med patientens behandlingsplan.</p>
+            <h3>Søvncyklusser</h3>
+            <p>En søvncyklus varer typisk 90 minutter. Søvnvindue-beregneren hjælper med at planlægge opvågning efter afsluttede cyklusser, så man vågner mere udhvilet.</p>
+          </article>
+          <article>
+            <h3>Vejrtrækningsøvelser</h3>
+            <p>4-7-8 og box breathing aktiverer det parasympatiske nervesystem og kan sænke puls og agtpågivenhed. Effekten er bedst med regelmæssig øvelse.</p>
           </article>
         </div>
       </section>
+
     </main>
 
     <nav class="bottom-nav" aria-label="Hovednavigation">
       <button class="active" data-route="home" type="button"><span aria-hidden="true">⌂</span>Hjem</button>
       <button data-route="now" type="button"><span aria-hidden="true">◐</span>Nu</button>
-      <button data-route="guides" type="button"><span aria-hidden="true">☰</span>Guides</button>
-      <button data-route="rhythm" type="button"><span aria-hidden="true">☀</span>Rytme</button>
-      <button data-route="plan" type="button"><span aria-hidden="true">✎</span>Plan</button>
+      <button data-route="guides" type="button"><span aria-hidden="true">☰</span>Temaer</button>
+      <button id="bottomMoreButton" type="button"><span aria-hidden="true">⋯</span>Mere</button>
     </nav>
 
     <div class="modal" id="toolModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -320,6 +423,6 @@
 
   </div>
 
-  <script src="app.js?v=1.0.4" defer></script>
+  <script src="app.js?v=1.0.9" defer></script>
 </body>
 </html>
